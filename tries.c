@@ -16,9 +16,7 @@ trie *trie_create() {
 }
 
 trie *trie_insert(trie *root, char *key, char *value) {
-    trie *node, *parent, *list;
-    parent = NULL;
-    list = root;
+    trie *node, *parent = NULL, *list = root;
     for (; *key != '\0'; key++) {
     /* Lookup sibling node */
         for (node = list; node != NULL; node = node->sibling) {
@@ -113,7 +111,7 @@ void trie_print(trie *root, int level) {
 			printf(" ");
 		}
 		if (node->value != NULL) {
-			printf("%c (value = %s)\n", node->ch, node->value);
+			printf("%c ($) (value = %s)\n", node->ch, node->value);
 		} else {
 			printf("%c \n", node->ch);
 		}
