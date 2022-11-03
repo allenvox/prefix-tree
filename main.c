@@ -3,9 +3,9 @@
 
 int main() {
     trie *root;
-	root = trie_insert(NULL, "boston", "12");
-	root = trie_insert(root, "birmingham", "34");
-	root = trie_insert(root, "leone", "56");
+	root = trie_insert(NULL, "arlington", "12");
+	root = trie_insert(root, "arkhangelsk", "34");
+	root = trie_insert(root, "arkham", "56");
 	root = trie_insert(root, "albuquerque", "78");
 	root = trie_insert(root, "almaty", "91");
 	root = trie_insert(root, "alicante", "101");
