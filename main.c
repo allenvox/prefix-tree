@@ -2,8 +2,7 @@
 #include "tries.h"
 
 int main() {
-    trie *root;
-	root = trie_insert(NULL, "arlington", "12");
+	trie *root = trie_insert(NULL, "arlington", "12");
 	root = trie_insert(root, "arkhangelsk", "34");
 	root = trie_insert(root, "arkham", "56");
 	root = trie_insert(root, "albuquerque", "78");
