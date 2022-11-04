@@ -13,5 +13,6 @@ int main() {
 	printf("Delete 'alicante':\n");
 	root = trie_delete(root, "alicante");
 	trie_print(root, 0);
+	trie_lookup(root, "alicante");
     return 0;
 }
