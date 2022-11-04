@@ -58,7 +58,7 @@ trie *trie_lookup(trie *root, char *key) {
         if (node != NULL) {
             list = node->child;
         } else {
-            printf("Not found :(");
+            printf("Not found :(\n");
             return NULL;
         }
     }
@@ -104,10 +104,8 @@ trie *trie_delete_dfs(trie *root, trie *parent, char *key, int *found)
 }
 
 void trie_print(trie *root, int level) {
-    trie *node;
-	int i;
-	for (node = root; node != NULL; node = node->sibling) {
-		for (i = 0; i < level; i++) {
+	for (trie *node = root; node != NULL; node = node->sibling) {
+		for (int i = 0; i < level; i++) {
 			printf(" ");
 		}
 		if (node->value != NULL) {
