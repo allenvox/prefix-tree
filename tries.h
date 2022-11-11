@@ -3,8 +3,8 @@
 typedef struct trie {
     char *value;
     char ch;
-    struct trie *sibling;
-    struct trie *child;
+    struct trie *sibling; // linked list prototype
+    struct trie *child; // only first child - next are in siblings
 } trie;
 
 trie *trie_create();
