@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 
-trie *trie_create() {
+trie *trie_create() { // initialize empty node
     trie *node = malloc(sizeof(*node));
     if(node == NULL) {
         return NULL;
@@ -17,9 +17,9 @@ trie *trie_create() {
 
 trie *trie_insert(trie *root, char *key, char *value) {
     trie *node, *parent = NULL, *list = root;
-    for (; *key != '\0'; key++) {
+    for (; *key != '\0'; key++) { // loop through all characters
         for (node = list; node != NULL; node = node->sibling) {
-            if (node->ch == *key) { // lookup through siblings
+            if (node->ch == *key) { // lookup for char through siblings
                 break; // if found - ok, leave the loop
             }
         }
@@ -28,15 +28,15 @@ trie *trie_insert(trie *root, char *key, char *value) {
             node->ch = *key;
             node->sibling = list; // this level node is sibling for our new node
             if (parent != NULL) { // parent exists
-                parent->child = node;
-            } else { // parent is NULL -> our new node is root of the entire tree
+                parent->child = node; // node is his child
+            } else { // parent is NULL -> our new node is now root
                 root = node;
             }
             list = NULL; // leaf node - no next levels
         } else { // node found, move to next level
             list = node->child;
         }
-        parent = node; // parent is now the previous level
+        parent = node; // our node becomes the parent/previous (the next level becomes current)
     }
     if (node->value != NULL) { // if value already exists - override
         free(node->value);
@@ -65,15 +65,15 @@ trie *trie_lookup(trie *root, char *key) {
 }
 
 trie *trie_delete(trie *root, char *key) {
-    int found;
+    int found; // variable for found/not marker
 	return trie_delete_dfs(root, NULL, key, &found);
 }
 
 trie *trie_delete_dfs(trie *root, trie *parent, char *key, int *found)
 {
 	trie *node, *prev = NULL;
-	*found = (*key == '\0' && root == NULL) ? 1 : 0;
-	if (root == NULL || *key == '\0') { // if removable node is empty - nothing to do
+	*found = (*key == '\0' && root == NULL) ? 1 : 0; // if root is empty and key is 0, we went to the end of the key -> found
+	if (root == NULL || *key == '\0') { // if root is empty or we're at the end of the key - nothing to do
 		return root;
 	}
 	for (node = root; node != NULL; node = node->sibling) {
@@ -83,11 +83,11 @@ trie *trie_delete_dfs(trie *root, trie *parent, char *key, int *found)
 		prev = node; // current becomes previous node
 	}
 	if (node == NULL) {
-		return root; // if node is empty - nothing to do
+		return root; // if node node not found - nothing to do
 	}
-	trie_delete_dfs(node->child, node, key + 1, found); // delete the next char
+	trie_delete_dfs(node->child, node, key + 1, found); // delete the sequence starting from next char (node)
 	if (*found > 0 && node->child == NULL) { // if node is found and his child is empty
-		if (prev != NULL) { // if previous node exists - override the siblings without removable node
+		if (prev != NULL) { // if previous node exists - override the sibling of previous to sibling of removable node
 			prev->sibling = node->sibling;
 		} else { // if previous node doesn't exist
 			if (parent != NULL) { // if parent exists - override
