@@ -26,13 +26,32 @@ trie *trie_insert(trie *root, char *key, char *value) {
         if (node == NULL) { // if node with (*key) letter not found, create one
             node = trie_create();
             node->ch = *key;
+
+            /* unordered insert
             node->sibling = list; // this level node is sibling for our new node
             if (parent != NULL) { // parent exists
-                parent->child = node; // node is his child
-            } else { // parent is NULL -> our new node is now root
+                parent->child = node; // node becomes his child
+            } else { // parent is NULL, new node is now root
+                root = node;
+            }*/
+
+            // ordered
+            if(parent != NULL) { // parent exists
+                if(list == NULL || list->ch > node->ch) { // child is NULL or is larger lexicographically then new node
+                    node->sibling = list;
+                    parent->child = node;
+                } else { // child exists and is smaller then new node
+                    while(list->sibling != NULL && (list->ch - node->ch < 0)) {
+                        list = list->sibling;
+                    }
+                    // insert new node between two other
+                    node->sibling = list->sibling;
+                    list->sibling = node;
+                }
+            } else { // parent is NULL, new node is now root
                 root = node;
             }
-            list = NULL; // leaf node - no next levels
+            list = NULL;
         } else { // node found, move to next level
             list = node->child;
         }
@@ -62,6 +81,28 @@ trie *trie_lookup(trie *root, char *key) {
         }
     }
     return node;
+}
+
+void trie_min(trie *root) {
+    trie *node = root;
+    while(node->child != NULL) {
+        printf("%c", node->ch);
+        node = node->child;
+    }
+    printf("%c ($) (value = %s)\n", node->ch, node->value);
+}
+
+void trie_max(trie *root) {
+    trie *node = root;
+    while(node->sibling != NULL) {
+        node = node->sibling;
+    }
+    printf("%c", node->ch);
+    if(node->value != NULL) {
+        printf("%c ($) (value = %s)\n", node->ch, node->value);
+    } else {
+        trie_max(node->child);
+    }
 }
 
 trie *trie_delete(trie *root, char *key) {
