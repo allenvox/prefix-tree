@@ -99,7 +99,7 @@ void trie_max(trie *root) {
     }
     printf("%c", node->ch);
     if(node->value != NULL) {
-        printf("%c ($) (value = %s)\n", node->ch, node->value);
+        printf(" ($) (value = %s)\n", node->value);
     } else {
         trie_max(node->child);
     }
