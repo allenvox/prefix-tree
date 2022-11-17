@@ -9,12 +9,21 @@ int main() {
 	root = trie_insert(root, "almaty", "91");
 	root = trie_insert(root, "alicante", "101");
 	trie_print(root, 0);
-	printf("Lookup 'arkham': Found %s\n", trie_lookup(root, "arkham")->value);
-	printf("Lookup 'alicante': Found %s\n", trie_lookup(root, "alicante")->value);
+
+	trie *lookup = trie_lookup(root, "arkham");
+	if(lookup != NULL) {
+		printf("Lookup 'arkham': Found %s\n", lookup->value);
+	}
+
 	printf("Delete 'alicante':\n");
 	root = trie_delete(root, "alicante");
 	trie_print(root, 0);
-	trie_lookup(root, "alicante");
+
+	lookup = trie_lookup(root, "alicante");
+	if(lookup != NULL) {
+		printf("Lookup 'alicante': Found %s\n", lookup->value);
+	}
+
 	printf("Minimum key in tree is ");
 	trie_min(root);
 	printf("Maximum key in tree is ");
