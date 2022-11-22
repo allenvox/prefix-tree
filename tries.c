@@ -48,7 +48,20 @@ trie *trie_insert(trie *root, char *key, char *value) {
                     node->sibling = list->sibling;
                     list->sibling = node;
                 }
-            } else { // parent is NULL, new node is now root
+            } else if (root) {
+                if (root->ch > node->ch) {
+                    node->sibling = root;
+                    root = node;
+                } else {
+                    while (list->sibling && (list->sibling->ch < node->ch)) {
+                        list = list->sibling;
+                    }
+
+                    node->sibling = list->sibling;
+                    list->sibling = node;
+                }
+            } else {
+                // root is NULL, new node is now root
                 root = node;
             }
             list = NULL;
