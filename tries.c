@@ -41,7 +41,7 @@ trie *trie_insert(trie *root, char *key, char *value) {
                     node->sibling = list;
                     parent->child = node;
                 } else { // child exists and is smaller then new node
-                    while(list->sibling != NULL && (list->ch - node->ch < 0)) {
+                    while(list->sibling != NULL && (list->sibling->ch - node->ch < 0)) {
                         list = list->sibling; // find alphabetic position for node
                     }
                     // insert new node between two other
