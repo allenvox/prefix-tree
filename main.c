@@ -8,6 +8,7 @@ int main() {
 	root = trie_insert(root, "albuquerque", "78");
 	root = trie_insert(root, "almaty", "91");
 	root = trie_insert(root, "alicante", "101");
+	root = trie_insert(root, "zula", "300");
 	trie_print(root, 0);
 
 	trie *lookup = trie_lookup(root, "arkham");
